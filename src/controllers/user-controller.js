@@ -45,6 +45,27 @@ const signIn = async(req,res)=>{
     }
 }
 
+const isAuthenticated = async(req,res)=>{
+    try {
+        const token = req.headers['x-access-token'];
+        const response = await userService.isAuthenticated(token);
+        console.log("controller getting response ",response)
+        return res.status(200).json({
+            success:true,
+            message:"user is authenticated and token is valid",
+            err:{},
+            data:response
+        })
+    } catch (error) {
+        return res.status(400).json({
+            success:false,
+            message:"Bad Request",
+            err:error,
+            data:{}
+        })
+    }
+}
+
 const getUserById = async(req,res)=>{
     try {
         const {id} = req.params;
@@ -68,5 +89,6 @@ const getUserById = async(req,res)=>{
 module.exports = {
     create,
     getUserById,
-    signIn
+    signIn,
+    isAuthenticated
 }

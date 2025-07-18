@@ -59,6 +59,24 @@ class UserService{
         }
     }
 
+    async isAuthenticated(token){
+        try {
+            const response = this.verifyToken(token);
+            if(!response) {
+                throw {error:"Invalid token"}
+            }
+            const user = await this.userRepository.getUserById(response.id);
+            if(!user){
+                throw {error:"User not exist with the corresponding token"};
+            }
+
+            return user.id;
+        } catch (error) {
+            console.log("something went wrong in auth process");
+            throw {error};
+        }
+    }
+
     verifyToken(token){
         try {
             const response = jwt.verify(token,JWT_KEY);
