@@ -25,6 +25,26 @@ const create = async(req,res)=>{
     }
 };
 
+const signIn = async(req,res)=>{
+    try {
+        const {email,password} = req.body;
+        const response = await userService.signIn(email,password);
+        return res.status(200).json({
+            success:true,
+            message:"signIn successfully",
+            data:response,
+            err:{}
+        })
+    } catch (error) {
+        return res.status(400).json({
+            success:false,
+            message:"Bad Request",
+            err:error,
+            data:{}
+        })
+    }
+}
+
 const getUserById = async(req,res)=>{
     try {
         const {id} = req.params;
@@ -47,5 +67,6 @@ const getUserById = async(req,res)=>{
 
 module.exports = {
     create,
-    getUserById
+    getUserById,
+    signIn
 }

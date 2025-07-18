@@ -12,6 +12,7 @@ class UserRepository{
         }
     }
 
+
     async destroy(userId){
         try {
             await User.destroy({
@@ -32,6 +33,19 @@ class UserRepository{
                 attributes:['email','id']
             });
             return user;
+        } catch (error) {
+            console.log("something went wrong in repository layer");
+            throw {error}
+        }
+    }
+    async getUserByEmail(email){
+        try {
+            const user = await User.findOne({
+                where:{
+                    email:email
+                }
+            });
+            return user ? user : null;
         } catch (error) {
             console.log("something went wrong in repository layer");
             throw {error}
