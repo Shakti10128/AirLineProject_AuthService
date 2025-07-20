@@ -9,4 +9,6 @@ router.post("/signin",AuthRequestValidators.validateUserAuth,UserController.sign
 router.get("/isauthenticated",UserController.isAuthenticated);
 router.get("/users/:id",UserController.getUserById);
 
+router.get("/isadmin",AuthRequestValidators.validateIsAdminRequest,UserController.isAdmin);
+
 module.exports = router;

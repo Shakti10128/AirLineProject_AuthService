@@ -86,9 +86,29 @@ const getUserById = async(req,res)=>{
     }
 }
 
+const isAdmin = async(req,res)=>{
+    try {
+        const {id} = req.body;
+        const response = await userService.isAdmin(id);
+        return res.status(200).json({
+            success:response, // true/false 
+            message: response ? "User is admin" : "Not admin",
+            err:{},
+        })
+    } catch (error) {
+        return res.status(400).json({
+            success:false,
+            message:"Bad Request",
+            err:error,
+            data:{}
+        })
+    }
+}
+
 module.exports = {
     create,
     getUserById,
     signIn,
-    isAuthenticated
+    isAuthenticated,
+    isAdmin
 }
