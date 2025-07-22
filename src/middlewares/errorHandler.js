@@ -1,6 +1,6 @@
 // middlewares/errorHandler.js
 const { StatusCodes } = require('http-status-codes');
-const AppError = require('../utils/error-handler');
+const AppError = require('../utils/appError');
 const errorResponse = require("../utils/errorResponse")
 
 const errorHandler = (err, req, res, next) => {

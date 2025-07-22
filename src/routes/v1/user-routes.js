@@ -8,6 +8,7 @@ router.post("/signup",AuthRequestValidators.validateUserAuth,UserController.crea
 router.post("/signin",AuthRequestValidators.validateUserAuth,UserController.signIn);
 router.get("/isauthenticated",UserController.isAuthenticated);
 router.get("/users/:id",UserController.getUserById);
+router.delete('/users/:id',UserController.deleteUser);
 
 router.get("/isadmin",AuthRequestValidators.validateIsAdminRequest,UserController.isAdmin);
 

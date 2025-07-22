@@ -1,4 +1,4 @@
-const AppError = require("../utils/error-handler")
+const AppError = require("../utils/appError")
 
 const errorResponse = (res, statusCode, message, error = null) => {
     return res.status(statusCode).json({

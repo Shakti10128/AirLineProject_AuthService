@@ -1,92 +1,64 @@
 const UserService = require("../services/user-service");
+const {StatusCodes} = require("http-status-codes");
+const successResponse = require("../utils/successResponse");
 
 const userService = new UserService();
 
-const create = async(req,res)=>{
+const create = async(req,res,next)=>{
     try {
         const response = await userService.create({
             email:req.body.email,
             password:req.body.password
         });
 
-        return res.status(201).json({
-            success:true,
-            message:"User created successfully",
-            data:response,
-            err:{}
-        })
+        return successResponse(res,StatusCodes.CREATED,response,"User created successfully");
     } catch (error) {
-        return res.status(400).json({
-            success:false,
-            message:"Bad Request",
-            err:error,
-            data:{}
-        })
+        console.log(error);
+        next(error);
     }
 };
 
-const signIn = async(req,res)=>{
+const signIn = async(req,res,next)=>{
     try {
         const {email,password} = req.body;
         const response = await userService.signIn(email,password);
-        return res.status(200).json({
-            success:true,
-            message:"signIn successfully",
-            data:response,
-            err:{}
-        })
+        return successResponse(res,StatusCodes.OK,response,"signIn successfully");
     } catch (error) {
-        return res.status(400).json({
-            success:false,
-            message:"Bad Request",
-            err:error,
-            data:{}
-        })
+        next(error);
     }
 }
 
-const isAuthenticated = async(req,res)=>{
+const isAuthenticated = async(req,res,next)=>{
     try {
         const token = req.headers['x-access-token'];
         const response = await userService.isAuthenticated(token);
-        console.log("controller getting response ",response)
-        return res.status(200).json({
-            success:true,
-            message:"user is authenticated and token is valid",
-            err:{},
-            data:response
-        })
+        return successResponse(res,StatusCodes.OK,response,"user is authenticated and token is valid");
     } catch (error) {
-        return res.status(400).json({
-            success:false,
-            message:"Bad Request",
-            err:error,
-            data:{}
-        })
+        next(error);
     }
 }
 
-const getUserById = async(req,res)=>{
+const deleteUser = async(req,res,next)=>{
+    try {
+        const {id} = req.params;
+        const response = await userService.destroy(id);
+        return successResponse(res,StatusCodes.OK,response,"User deleted successfully");
+    } catch (error) {
+        next(error);
+    }
+}
+
+const getUserById = async(req,res,next)=>{
     try {
         const {id} = req.params;
         const response = await userService.getUserById(id);
-        return res.status(200).json({
-            success:true,
-            message:"User fetched successfully",
-            data:response,
-            err:{}
-        })
+        return successResponse(res,StatusCodes.OK,response,"User fetched successfully");
     } catch (error) {
-        return res.status(400).json({
-            success:false,
-            message:"Bad Request",
-            err:error,
-            data:{}
-        })
+        next(error);
     }
 }
 
-const isAdmin = async(req,res)=>{
+const isAdmin = async(req,res,next)=>{
     try {
         const {id} = req.body;
         const response = await userService.isAdmin(id);
@@ -96,12 +68,7 @@ const isAdmin = async(req,res)=>{
             err:{},
         })
     } catch (error) {
-        return res.status(400).json({
-            success:false,
-            message:"Bad Request",
-            err:error,
-            data:{}
-        })
+        next(error);
     }
 }
 
@@ -109,6 +76,7 @@ module.exports = {
     create,
     getUserById,
     signIn,
+    deleteUser,
     isAuthenticated,
     isAdmin
 }
