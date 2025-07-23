@@ -4,12 +4,12 @@ const {AuthRequestValidators} = require("../../middlewares/index");
 
 const router = express().router;
 
-router.post("/signup",AuthRequestValidators.validateUserAuth,UserController.create);
-router.post("/signin",AuthRequestValidators.validateUserAuth,UserController.signIn);
-router.get("/isauthenticated",UserController.isAuthenticated);
+router.post("/users/signup",AuthRequestValidators.validateUserAuth,UserController.create);
+router.post("/users/signin",AuthRequestValidators.validateUserAuth,UserController.signIn);
+router.get("/users/isauthenticated",UserController.isAuthenticated);
 router.get("/users/:id",UserController.getUserById);
 router.delete('/users/:id',UserController.deleteUser);
 
-router.get("/isadmin",AuthRequestValidators.validateIsAdminRequest,UserController.isAdmin);
+router.get("/users/isadmin",AuthRequestValidators.validateIsAdminRequest,UserController.isAdmin);
 
 module.exports = router;

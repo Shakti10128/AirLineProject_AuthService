@@ -4,6 +4,7 @@ const apiRoutes = require("./routes/index");
 const app = express();
 const errorHandler = require('./middlewares/errorHandler');
 
+
 // const db = require("./models/index");
 
 const prepareAndStartServer = ()=>{
